@@ -12,14 +12,15 @@ class ViewController: UIViewController {
     let backgroundView = UIView()
     let imageView = UIImageView()
     let label = UILabel()
+    let slider = UISlider()
 
     override func viewDidLoad() {
-        super.viewDidLoad()      
+        super.viewDidLoad()
         
         view.backgroundColor = .white
         configureView()
         configureImageView()
-        configureLabel()
+        configureSlider()
     }
     
     func configureView() {
@@ -48,15 +49,23 @@ class ViewController: UIViewController {
         ])
     }
     
-    func configureLabel() {
+    func configureSlider() {
+        view.addSubview(slider)
         view.addSubview(label)
-        label.text = "Intensity"
+        
+        label.text = "Intensity:"
         label.translatesAutoresizingMaskIntoConstraints = false
+        slider.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             label.topAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: 20),
             label.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            label.heightAnchor.constraint(equalToConstant: 44)
+            label.heightAnchor.constraint(equalToConstant: 44),
+            
+            slider.topAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: 20),
+            slider.leadingAnchor.constraint(equalTo: label.trailingAnchor, constant: 10),
+            slider.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            slider.heightAnchor.constraint(equalToConstant: 44)
         ])
     }
 }
