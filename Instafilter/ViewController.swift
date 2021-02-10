@@ -29,6 +29,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate & UINavi
         configureButtons()
     }
     
+    // MARK:  - Layout UI
+    
     func configureImageView() {
         view.addSubview(backgroundView)
         backgroundView.backgroundColor = .systemGray5
@@ -95,6 +97,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate & UINavi
         ])
     }
     
+    // MARK:  - Buttons Actions
+    
     @objc func changeFilter() {
         print("change filter tapped")
     }
@@ -102,6 +106,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate & UINavi
     @objc func save() {
         print("save tapped")
     }
+    
+    // MARK:  - Image Picker methods
     
     @objc func importPicture() {
         let picker = UIImagePickerController()
