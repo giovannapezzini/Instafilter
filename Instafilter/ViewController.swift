@@ -72,11 +72,13 @@ class ViewController: UIViewController {
         changeFilterButton.translatesAutoresizingMaskIntoConstraints = false
         changeFilterButton.setTitle("Change Filter", for: .normal)
         changeFilterButton.setTitleColor(.systemBlue, for: .normal)
-        
+        changeFilterButton.addTarget(self, action: #selector(changeFilter), for: .touchUpInside)
+
         view.addSubview(saveButton)
         saveButton.translatesAutoresizingMaskIntoConstraints = false
         saveButton.setTitle("Save", for: .normal)
         saveButton.setTitleColor(.systemBlue, for: .normal)
+        saveButton.addTarget(self, action: #selector(save), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
             changeFilterButton.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 10),
@@ -87,6 +89,14 @@ class ViewController: UIViewController {
             saveButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             saveButton.bottomAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 10)
         ])
+    }
+    
+    @objc func changeFilter() {
+        print("change filter tapped")
+    }
+    
+    @objc func save() {
+        print("save tapped")
     }
 }
 
