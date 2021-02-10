@@ -18,30 +18,25 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .white
-        configureView()
         configureImageView()
         configureSlider()
     }
     
-    func configureView() {
+    func configureImageView() {
         view.addSubview(backgroundView)
         backgroundView.backgroundColor = .systemGray5
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
         
-        NSLayoutConstraint.activate([
-            backgroundView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            backgroundView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            backgroundView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            backgroundView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5)
-        ])
-    }
-
-    func configureImageView() {
         backgroundView.addSubview(imageView)
         imageView.backgroundColor = .systemGray6
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
+            backgroundView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            backgroundView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            backgroundView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            backgroundView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5),
+            
             imageView.topAnchor.constraint(equalTo: backgroundView.topAnchor, constant: 10),
             imageView.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor, constant: 10),
             imageView.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor, constant: -10),
