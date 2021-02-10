@@ -30,8 +30,8 @@ class ViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             backgroundView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            backgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            backgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            backgroundView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            backgroundView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             backgroundView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5)
         ])
     }
@@ -59,12 +59,12 @@ class ViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             label.topAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: 20),
-            label.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            label.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             label.heightAnchor.constraint(equalToConstant: 44),
             
             slider.topAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: 20),
             slider.leadingAnchor.constraint(equalTo: label.trailingAnchor, constant: 10),
-            slider.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            slider.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             slider.heightAnchor.constraint(equalToConstant: 44)
         ])
     }
