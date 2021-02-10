@@ -13,6 +13,8 @@ class ViewController: UIViewController {
     let imageView = UIImageView()
     let label = UILabel()
     let slider = UISlider()
+    let changeFilterButton = UIButton()
+    let saveButton = UIButton()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +22,7 @@ class ViewController: UIViewController {
         view.backgroundColor = .white
         configureImageView()
         configureSlider()
+        configureButtons()
     }
     
     func configureImageView() {
@@ -61,6 +64,28 @@ class ViewController: UIViewController {
             slider.leadingAnchor.constraint(equalTo: label.trailingAnchor, constant: 10),
             slider.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             slider.heightAnchor.constraint(equalToConstant: 44)
+        ])
+    }
+    
+    func configureButtons() {
+        view.addSubview(changeFilterButton)
+        changeFilterButton.translatesAutoresizingMaskIntoConstraints = false
+        changeFilterButton.setTitle("Change Filter", for: .normal)
+        changeFilterButton.setTitleColor(.systemBlue, for: .normal)
+        
+        view.addSubview(saveButton)
+        saveButton.translatesAutoresizingMaskIntoConstraints = false
+        saveButton.setTitle("Save", for: .normal)
+        saveButton.setTitleColor(.systemBlue, for: .normal)
+        
+        NSLayoutConstraint.activate([
+            changeFilterButton.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 10),
+            changeFilterButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            changeFilterButton.bottomAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 10),
+            
+            saveButton.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 10),
+            saveButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            saveButton.bottomAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 10)
         ])
     }
 }
