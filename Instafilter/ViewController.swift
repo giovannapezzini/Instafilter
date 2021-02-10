@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     
     let backgroundView = UIView()
     let imageView = UIImageView()
@@ -15,11 +15,15 @@ class ViewController: UIViewController {
     let slider = UISlider()
     let changeFilterButton = UIButton()
     let saveButton = UIButton()
+    var currentImage = UIImage()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .white
+        title = "Instafilter 📸"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(importPicture))
+        
         configureImageView()
         configureSlider()
         configureButtons()
@@ -97,6 +101,19 @@ class ViewController: UIViewController {
     
     @objc func save() {
         print("save tapped")
+    }
+    
+    @objc func importPicture() {
+        let picker = UIImagePickerController()
+        picker.allowsEditing = true
+        picker.delegate = self
+        present(picker, animated: true)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let image = info[.editedImage] as? UIImage else { return }
+        dismiss(animated: true)
+        currentImage = image
     }
 }
 
