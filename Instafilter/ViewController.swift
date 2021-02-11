@@ -6,23 +6,30 @@
 //
 
 import UIKit
+import CoreImage
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     
     let backgroundView = UIView()
     let imageView = UIImageView()
     let label = UILabel()
-    let slider = UISlider()
+    let intensity = UISlider()
     let changeFilterButton = UIButton()
     let saveButton = UIButton()
     var currentImage = UIImage()
-
+    
+    var context: CIContext!
+    var currentFilter: CIFilter!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .white
         title = "Instafilter 📸"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(importPicture))
+        
+        context = CIContext()
+        currentFilter = CIFilter(name: "CISepiaTone")
         
         configureImageView()
         configureSlider()
@@ -54,22 +61,22 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate & UINavi
     }
     
     func configureSlider() {
-        view.addSubview(slider)
+        view.addSubview(intensity)
         view.addSubview(label)
         
         label.text = "Intensity:"
         label.translatesAutoresizingMaskIntoConstraints = false
-        slider.translatesAutoresizingMaskIntoConstraints = false
+        intensity.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             label.topAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: 20),
             label.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             label.heightAnchor.constraint(equalToConstant: 44),
             
-            slider.topAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: 20),
-            slider.leadingAnchor.constraint(equalTo: label.trailingAnchor, constant: 10),
-            slider.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            slider.heightAnchor.constraint(equalToConstant: 44)
+            intensity.topAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: 20),
+            intensity.leadingAnchor.constraint(equalTo: label.trailingAnchor, constant: 10),
+            intensity.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            intensity.heightAnchor.constraint(equalToConstant: 44)
         ])
     }
     
@@ -107,6 +114,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate & UINavi
         print("save tapped")
     }
     
+    @objc func intensityChanged() {
+        applyProcessing()
+    }
+    
     // MARK:  - Image Picker methods
     
     @objc func importPicture() {
@@ -120,6 +131,20 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate & UINavi
         guard let image = info[.editedImage] as? UIImage else { return }
         dismiss(animated: true)
         currentImage = image
+        
+        let beginImage = CIImage(image: currentImage)
+        currentFilter.setValue(beginImage, forKey: kCIInputImageKey)
+        applyProcessing()
+    }
+    
+    func applyProcessing() {
+        guard let outputImage = currentFilter.outputImage else { return }
+        currentFilter.setValue(intensity.value, forKey: kCIInputIntensityKey)
+        
+        if let cgImage = context.createCGImage(outputImage, from: outputImage.extent) {
+            let processedImage = UIImage(cgImage: cgImage)
+            imageView.image = processedImage
+        }
     }
 }
 
