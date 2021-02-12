@@ -18,7 +18,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate & UINavi
     let saveButton = UIButton()
     var currentImage = UIImage()
     
-    var context: CIContext!
+    var context = CIContext()
     var currentFilter: CIFilter!
     
     override func viewDidLoad() {
@@ -28,7 +28,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate & UINavi
         title = "Instafilter 📸"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(importPicture))
         
-        context = CIContext()
         currentFilter = CIFilter(name: "CISepiaTone")
         
         configureImageView()
@@ -106,7 +105,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate & UINavi
     
     // MARK:  - Buttons Actions
     
-    @objc func changeFilter(_ sender: UIButton) {
+    @objc func changeFilter(_ sender: Any) {
         let ac = UIAlertController(title: "Choose filter", message: nil, preferredStyle: .actionSheet)
         ac.addAction(UIAlertAction(title: "CIBumpDistortion", style: .default, handler: setFilter))
         ac.addAction(UIAlertAction(title: "CIGaussianBlur", style: .default, handler: setFilter))
@@ -116,20 +115,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate & UINavi
         ac.addAction(UIAlertAction(title: "CIUnsharpMask", style: .default, handler: setFilter))
         ac.addAction(UIAlertAction(title: "CIVignette", style: .default, handler: setFilter))
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-        
-        if let popoverController = ac.popoverPresentationController  {
-            popoverController.sourceView = sender
-            popoverController.sourceRect = sender.bounds
-        }
-        
         present(ac, animated: true)
     }
     
     func setFilter(action: UIAlertAction) -> Void {
-        guard currentImage != nil else { return }
-        guard let actionTitle = action.title else { return }
-        
-        currentFilter = CIFilter(name: actionTitle)
+        guard let filter = action.title else { return }
+        currentFilter = CIFilter(name: filter)
         
         let beginImage = CIImage(image: currentImage)
         currentFilter.setValue(beginImage, forKey: kCIInputImageKey)
@@ -141,7 +132,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate & UINavi
         print("save tapped")
     }
     
-    @objc func intensityChanged() {
+    @objc func intensityChanged(_ sender: Any) {
         applyProcessing()
     }
     
@@ -157,20 +148,26 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate & UINavi
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let image = info[.editedImage] as? UIImage else { return }
         dismiss(animated: true)
+        
         currentImage = image
         
         let beginImage = CIImage(image: currentImage)
         currentFilter.setValue(beginImage, forKey: kCIInputImageKey)
+        
         applyProcessing()
     }
     
     func applyProcessing() {
-        guard let outputImage = currentFilter.outputImage else { return }
-        currentFilter.setValue(intensity.value, forKey: kCIInputIntensityKey)
+        let inputKeys = currentFilter.inputKeys
         
-        if let cgImage = context.createCGImage(outputImage, from: outputImage.extent) {
-            let processedImage = UIImage(cgImage: cgImage)
-            imageView.image = processedImage
+        if inputKeys.contains(kCIInputIntensityKey) { currentFilter.setValue(intensity.value, forKey: kCIInputIntensityKey) }
+        if inputKeys.contains(kCIInputRadiusKey) { currentFilter.setValue(intensity.value * 200, forKey: kCIInputRadiusKey) }
+        if inputKeys.contains(kCIInputScaleKey) { currentFilter.setValue(intensity.value * 10, forKey: kCIInputScaleKey) }
+        if inputKeys.contains(kCIInputCenterKey) { currentFilter.setValue(CIVector(x: currentImage.size.width / 2, y: currentImage.size.height / 2), forKey: kCIInputCenterKey) }
+        
+        if let cgimg = context.createCGImage(currentFilter.outputImage!, from: currentFilter.outputImage!.extent) {
+            let processedImage = UIImage(cgImage: cgimg)
+            self.imageView.image = processedImage
         }
     }
 }
