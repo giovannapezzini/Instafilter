@@ -60,12 +60,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate & UINavi
     }
     
     func configureSlider() {
-        view.addSubview(intensity)
         view.addSubview(label)
-        
-        label.text = "Intensity:"
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Intensity:"
+        
+        view.addSubview(intensity)
         intensity.translatesAutoresizingMaskIntoConstraints = false
+        intensity.addTarget(self, action: #selector(intensityChanged), for: .valueChanged);
         
         NSLayoutConstraint.activate([
             label.topAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: 20),
