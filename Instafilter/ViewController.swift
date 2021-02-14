@@ -106,7 +106,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate & UINavi
         ])
     }
     
-    // MARK:  - Buttons Actions
+    // MARK:  - Filter methods
     
     @objc func changeFilter(_ sender: Any) {
         let ac = UIAlertController(title: "Choose filter", message: nil, preferredStyle: .actionSheet)
@@ -135,13 +135,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate & UINavi
         applyProcessing()
     }
     
-    @objc func save() {
-        guard let image = imageView.image else { return }
-        
-        UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
-    }
-    
-    // MARK:  - Image Picker methods
+    // MARK:  - Image picker methods
     
     @objc func importPicture() {
         let picker = UIImagePickerController()
@@ -162,6 +156,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate & UINavi
         applyProcessing()
     }
     
+    // MARK:  - Image processing method
+    
     func applyProcessing() {
         let inputKeys = currentFilter.inputKeys
         
@@ -176,6 +172,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate & UINavi
         }
     }
     
+    // MARK:  - Image saving methods
+    
+    @objc func save() {
+        guard let image = imageView.image else { return }
+        
+        UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+    }
+    
     @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
         if let error = error {
             let ac = UIAlertController(title: "Save error", message: error.localizedDescription, preferredStyle: .alert)
@@ -188,4 +192,3 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate & UINavi
         }
     }
 }
-
