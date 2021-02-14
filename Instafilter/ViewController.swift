@@ -12,12 +12,16 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate & UINavi
     
     let backgroundView = UIView()
     let imageView = UIImageView()
-    let label = UILabel()
+    
+    let intensityLabel = UILabel()
+    let radiusLabel = UILabel()
     let intensity = UISlider()
+    let radius = UISlider()
+    
     let changeFilterButton = UIButton()
     let saveButton = UIButton()
-    var currentImage = UIImage()
     
+    var currentImage = UIImage()
     var context = CIContext()
     var currentFilter: CIFilter!
     
@@ -62,23 +66,40 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate & UINavi
     }
     
     func configureSlider() {
-        view.addSubview(label)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Intensity:"
+        view.addSubview(intensityLabel)
+        intensityLabel.translatesAutoresizingMaskIntoConstraints = false
+        intensityLabel.text = "Intensity:"
         
         view.addSubview(intensity)
         intensity.translatesAutoresizingMaskIntoConstraints = false
-        intensity.addTarget(self, action: #selector(intensityChanged), for: .valueChanged);
+        intensity.addTarget(self, action: #selector(intensityChanged), for: .valueChanged)
+        
+        view.addSubview(radiusLabel)
+        radiusLabel.translatesAutoresizingMaskIntoConstraints = false
+        radiusLabel.text = "Radius:"
+        
+        view.addSubview(radius)
+        radius.translatesAutoresizingMaskIntoConstraints = false
+        radius.addTarget(self, action: #selector(radiusChanged), for: .valueChanged)
         
         NSLayoutConstraint.activate([
-            label.topAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: 20),
-            label.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            label.heightAnchor.constraint(equalToConstant: 44),
+            intensityLabel.topAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: 20),
+            intensityLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            intensityLabel.heightAnchor.constraint(equalToConstant: 44),
             
             intensity.topAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: 20),
-            intensity.leadingAnchor.constraint(equalTo: label.trailingAnchor, constant: 10),
+            intensity.leadingAnchor.constraint(equalTo: intensityLabel.trailingAnchor, constant: 10),
             intensity.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            intensity.heightAnchor.constraint(equalToConstant: 44)
+            intensity.heightAnchor.constraint(equalToConstant: 44),
+            
+            radiusLabel.topAnchor.constraint(equalTo: intensity.bottomAnchor, constant: 0),
+            radiusLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            radiusLabel.heightAnchor.constraint(equalToConstant: 44),
+            
+            radius.topAnchor.constraint(equalTo: intensity.bottomAnchor, constant: 0),
+            radius.leadingAnchor.constraint(equalTo: intensityLabel.trailingAnchor, constant: 10),
+            radius.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            radius.heightAnchor.constraint(equalToConstant: 44)
         ])
     }
     
@@ -96,11 +117,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate & UINavi
         saveButton.addTarget(self, action: #selector(save), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
-            changeFilterButton.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 10),
+            changeFilterButton.topAnchor.constraint(equalTo: radiusLabel.bottomAnchor, constant: 10),
             changeFilterButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             changeFilterButton.bottomAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 10),
             
-            saveButton.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 10),
+            saveButton.topAnchor.constraint(equalTo: radiusLabel.bottomAnchor, constant: 10),
             saveButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             saveButton.bottomAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 10)
         ])
@@ -133,6 +154,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate & UINavi
     }
     
     @objc func intensityChanged(_ sender: Any) {
+        applyProcessing()
+    }
+    
+    @objc func radiusChanged(_ sender: Any) {
         applyProcessing()
     }
     
