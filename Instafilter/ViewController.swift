@@ -175,7 +175,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate & UINavi
     // MARK:  - Image saving methods
     
     @objc func save() {
-        guard let image = imageView.image else { return }
+        guard let image = imageView.image else {
+            let ac = UIAlertController(title: "Save error", message: "No image to save", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default))
+            present(ac, animated: true)
+            return
+        }
         
         UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
     }
