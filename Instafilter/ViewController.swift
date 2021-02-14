@@ -124,7 +124,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate & UINavi
     func setFilter(action: UIAlertAction) -> Void {
         guard let filter = action.title else { return }
         currentFilter = CIFilter(name: filter)
-        
+        changeFilterButton.setTitle("Filter: " + filter, for: .normal)
+
         let beginImage = CIImage(image: currentImage)
         currentFilter.setValue(beginImage, forKey: kCIInputImageKey)
         
