@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1333976925D8BA9400D73AFD /* AppBanner.png in Resources */ = {isa = PBXBuildFile; fileRef = 1333976825D8BA9400D73AFD /* AppBanner.png */; };
 		13A530A625D3562700135472 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A530A525D3562700135472 /* AppDelegate.swift */; };
 		13A530A825D3562700135472 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A530A725D3562700135472 /* SceneDelegate.swift */; };
 		13A530AA25D3562700135472 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A530A925D3562700135472 /* ViewController.swift */; };
@@ -15,6 +16,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1333976525D8AB1600D73AFD /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		1333976825D8BA9400D73AFD /* AppBanner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppBanner.png; sourceTree = "<group>"; };
 		13A530A225D3562700135472 /* Instafilter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Instafilter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13A530A525D3562700135472 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		13A530A725D3562700135472 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -35,9 +38,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1333976425D8AAF700D73AFD /* Documentation */ = {
+			isa = PBXGroup;
+			children = (
+				1333976825D8BA9400D73AFD /* AppBanner.png */,
+			);
+			path = Documentation;
+			sourceTree = "<group>";
+		};
 		13A5309925D3562700135472 = {
 			isa = PBXGroup;
 			children = (
+				1333976525D8AB1600D73AFD /* README.md */,
+				1333976425D8AAF700D73AFD /* Documentation */,
 				13A530A425D3562700135472 /* Instafilter */,
 				13A530A325D3562700135472 /* Products */,
 			);
@@ -123,6 +136,7 @@
 			files = (
 				13A530B225D3562900135472 /* LaunchScreen.storyboard in Resources */,
 				13A530AF25D3562900135472 /* Assets.xcassets in Resources */,
+				1333976925D8BA9400D73AFD /* AppBanner.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
